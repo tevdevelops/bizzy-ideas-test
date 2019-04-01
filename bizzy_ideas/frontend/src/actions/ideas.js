@@ -1,11 +1,12 @@
 import axios from "axios";
 import { createMessage, returnErrors } from "./messages";
 import { GET_IDEAS, DELETE_IDEA, ADD_IDEA } from "./types";
+import { tokenConfig } from "./auth";
 
 // Get Idea
-export const getIdeas = () => dispatch => {
+export const getIdeas = () => (dispatch, getState) => {
   axios
-    .get("/api/ideas/")
+    .get("/api/ideas/", tokenConfig(getState))
     .then(res => {
       dispatch({
         type: GET_IDEAS,
@@ -18,9 +19,9 @@ export const getIdeas = () => dispatch => {
 };
 
 // Add an Idea
-export const addIdea = idea => dispatch => {
+export const addIdea = idea => (dispatch, getState) => {
   axios
-    .post("/api/ideas/", idea)
+    .post("/api/ideas/", idea, tokenConfig(getState))
     .then(res => {
       dispatch(createMessage({ addIdea: "Idea Added" }));
       dispatch({
@@ -34,9 +35,9 @@ export const addIdea = idea => dispatch => {
 };
 
 // Delete a Idea
-export const deleteIdea = id => dispatch => {
+export const deleteIdea = id => (dispatch, getState) => {
   axios
-    .delete(`/api/ideas/${id}/`)
+    .delete(`/api/ideas/${id}/`, tokenConfig(getState))
     .then(res => {
       dispatch(createMessage({ deleteIdea: "Idea Deleted" }));
       dispatch({

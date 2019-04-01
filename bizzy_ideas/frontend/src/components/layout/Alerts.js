@@ -18,11 +18,18 @@ export class Alerts extends Component {
       if (error.msg.description) {
         alert.error(`Description: ${error.msg.description.join()}`);
       }
+      if (error.msg.non_field_errors) {
+        alert.error(error.msg.non_field_errors.join());
+      }
+      if (error.msg.username) {
+        alert.error(error.msg.username.join());
+      }
     }
 
     if (message !== prevProps.message) {
       if (message.deleteIdea) alert.success(message.deleteIdea);
       if (message.addIdea) alert.success(message.addIdea);
+      if (message.passwordsNotMatch) alert.error(message.passwordsNotMatch);
     }
   }
 
